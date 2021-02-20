@@ -3,7 +3,6 @@
 
 namespace Victorlap\Mapp\Tests\Stubs;
 
-
 class Employee
 {
     public int $id;
@@ -11,5 +10,4 @@ class Employee
     public string $name;
 
     public ?string $email;
-
 }

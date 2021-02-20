@@ -17,7 +17,7 @@ class Mapper
      * @psalm-param string|array|object $json
      * @psalm-param class-string|object $class
      */
-    public function map(string|array|object $json, string|object $class): object|array
+    public function map(string | array | object $json, string | object $class): object | array
     {
         $class = is_string($class) ? $class : get_class($class);
 
@@ -38,7 +38,7 @@ class Mapper
      */
     private function mapArray(array $array, string $class): array
     {
-        return array_map(fn($item) => $this->mapObject($item, $class), $array);
+        return array_map(fn ($item) => $this->mapObject($item, $class), $array);
     }
 
     /**
@@ -52,7 +52,7 @@ class Mapper
         $result = new $class;
 
         foreach ($inspectionResult->properties as $property) {
-            if (!array_key_exists($property->jsonName, $json)) {
+            if (! array_key_exists($property->jsonName, $json)) {
                 throw MissingPropertyException::create($class, $property->jsonName);
             }
 

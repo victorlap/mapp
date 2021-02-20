@@ -3,7 +3,6 @@
 
 namespace Victorlap\Mapp\Tests\Stubs;
 
-
 class Address
 {
     public string $line1;
@@ -15,5 +14,4 @@ class Address
     public string $city;
 
     public string $country;
-
 }

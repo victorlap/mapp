@@ -3,7 +3,6 @@
 
 namespace Victorlap\Mapp;
 
-
 class PropertyInspectionResult
 {
     public function __construct(
@@ -11,7 +10,6 @@ class PropertyInspectionResult
         public $types,
         public string $propertyName,
         public string $jsonName,
-    )
-    {
+    ) {
     }
 }

@@ -3,7 +3,6 @@
 
 namespace Victorlap\Mapp;
 
-
 use ReflectionClass;
 use ReflectionProperty;
 

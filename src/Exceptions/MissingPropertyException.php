@@ -3,7 +3,6 @@
 
 namespace Victorlap\Mapp\Exceptions;
 
-
 use Exception;
 
 class MissingPropertyException extends Exception
