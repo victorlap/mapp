@@ -1,0 +1,47 @@
+{
+    "name": "victorlap/mapp",
+    "description": "JSON to POPO mapper",
+    "keywords": [
+        "victorlap",
+        "mapp"
+    ],
+    "homepage": "https://github.com/victorlap/mapp",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Victor Lap",
+            "email": "victorlap@outlook.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "symfony/polyfill-php81": "^1.22"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.17",
+        "phpunit/phpunit": "^9.5",
+        "vimeo/psalm": "^4.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Victorlap\\Mapp\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Victorlap\\Mapp\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "psalm": "vendor/bin/psalm",
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage",
+        "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

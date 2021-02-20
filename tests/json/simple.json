@@ -1,0 +1,27 @@
+{
+    "name": "Acme Corp",
+    "address": {
+        "line1": "Fake street 2",
+        "line2": "floor 2",
+        "zipcode": "1234",
+        "city": "Amsterdam",
+        "country": "Netherlands"
+    },
+    "employees": [
+        {
+            "id": 1,
+            "name": "Alice",
+            "email": "alice@acme.corp"
+        },
+        {
+            "id": 2,
+            "name": "Bob",
+            "email": "bob@acme.corp"
+        },
+        {
+            "id": 3,
+            "name": "Carol",
+            "email": "carol@acme.corp"
+        }
+    ]
+}
