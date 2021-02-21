@@ -3,6 +3,7 @@
 namespace Victorlap\Mapp;
 
 use Victorlap\Mapp\Exceptions\MissingPropertyException;
+use Victorlap\Mapp\Helpers\ArrayHelper;
 use Victorlap\Mapp\Helpers\NameHelper;
 use Victorlap\Mapp\Helpers\TypeHelper;
 use Victorlap\Mapp\Inspection\Inspector;
@@ -31,7 +32,7 @@ class Mapper
             $json = json_decode($json, true, JSON_THROW_ON_ERROR);
         }
 
-        if (is_object($json) || ! array_is_list($json)) {
+        if (is_object($json) || ! ArrayHelper::array_is_list($json)) {
             return $this->mapObject($json, $class);
         }
 
