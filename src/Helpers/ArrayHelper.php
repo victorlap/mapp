@@ -3,7 +3,6 @@
 
 namespace Victorlap\Mapp\Helpers;
 
-
 class ArrayHelper
 {
     /**
