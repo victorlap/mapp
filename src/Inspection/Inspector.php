@@ -10,15 +10,24 @@ use ReflectionProperty;
 use ReflectionUnionType;
 use RuntimeException;
 use Victorlap\Mapp\Exceptions\MissingPropertyTypeException;
+use Victorlap\Mapp\Helpers\TypeHelper;
 use Victorlap\Mapp\Inspection\Result\InspectionResult;
 use Victorlap\Mapp\Inspection\Result\PropertyInspectionResult;
 use Victorlap\Mapp\Inspection\Result\TypeInspectionResult;
-use Victorlap\Mapp\TypeHelper;
+use Victorlap\Mapp\MapperOptions;
 
 class Inspector
 {
     /** @psalm-var array<class-string,InspectionResult> */
     public static array $inspectionResultCache = [];
+    public static string $optionCache = '';
+
+    public $options;
+
+    public function __construct(MapperOptions $options)
+    {
+        $this->setOptions($options);
+    }
 
     /**
      * @param class-string $class
@@ -66,7 +75,7 @@ class Inspector
      *
      * @return TypeInspectionResult
      */
-    private function inspectType(ReflectionProperty $property): TypeInspectionResult
+    private function inspectType(ReflectionProperty $property): ?TypeInspectionResult
     {
         $type = $property->getType();
         $typeAttributes = TypeHelper::determineTypeAttributes($property->getAttributes());
@@ -76,6 +85,10 @@ class Inspector
         }
 
         if (is_null($type)) {
+            if ($this->options->allow_missing_property_type) {
+                return null;
+            }
+
             throw MissingPropertyTypeException::create($property->class, $property->getName());
         }
 
@@ -98,5 +111,17 @@ class Inspector
         }
 
         throw new RuntimeException("ReflectionType not an instance of \ReflectionUnionType or \ReflectionNamedType");
+    }
+
+    private function setOptions(MapperOptions $options): void
+    {
+        $optionHash = md5(serialize($options));
+
+        if (static::$optionCache !== $optionHash) {
+            static::$inspectionResultCache = [];
+        }
+
+        static::$optionCache = $optionHash;
+        $this->options = $options;
     }
 }

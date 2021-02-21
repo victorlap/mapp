@@ -10,16 +10,14 @@ use Victorlap\Mapp\Tests\Stubs\Employee;
 
 class MapperTest extends TestCase
 {
-    /** @test */
-    public function mapper_can_be_instantiated()
+    public function test_mapper_can_be_instantiated()
     {
         $mapper = new Mapper();
 
         self::assertInstanceOf(Mapper::class, $mapper);
     }
 
-    /** @test */
-    public function mapper_can_map_by_class_instance()
+    public function test_mapper_can_map_by_class_instance()
     {
         $mapper = new Mapper();
 
@@ -28,8 +26,7 @@ class MapperTest extends TestCase
         self::assertInstanceOf(Company::class, $company);
     }
 
-    /** @test */
-    public function mapper_can_map_by_class_string()
+    public function test_mapper_can_map_by_class_string()
     {
         $mapper = new Mapper();
 
@@ -38,8 +35,7 @@ class MapperTest extends TestCase
         self::assertInstanceOf(Company::class, $company);
     }
 
-    /** @test */
-    public function mapper_can_map_single_class()
+    public function test_mapper_can_map_single_class()
     {
         $mapper = new Mapper();
 
@@ -54,8 +50,7 @@ class MapperTest extends TestCase
         self::assertEquals("Netherlands", $address->country);
     }
 
-    /** @test */
-    public function mapper_can_map_relations_class()
+    public function test_mapper_can_map_relations_class()
     {
         $mapper = new Mapper();
 

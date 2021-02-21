@@ -1,15 +1,13 @@
 <?php
 
 
-namespace Victorlap\Mapp;
+namespace Victorlap\Mapp\Helpers;
 
-use JetBrains\PhpStorm\Pure;
 use ReflectionAttribute;
 use Victorlap\Mapp\Attributes\AttributeInterface;
 
 class TypeHelper
 {
-    #[Pure]
     public static function isSimpleType(string $type): bool
     {
         return in_array($type, [
@@ -21,7 +19,7 @@ class TypeHelper
      * @psalm-param string|int|float|object|array $value
      * @psalm-param  list<string> $types
      */
-    public static function determineSuitableType(mixed $value, array $types): string
+    public static function determineSuitableType(mixed $value, array $types): ?string
     {
         // TODO
 

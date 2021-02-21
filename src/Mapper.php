@@ -3,16 +3,20 @@
 namespace Victorlap\Mapp;
 
 use Victorlap\Mapp\Exceptions\MissingPropertyException;
+use Victorlap\Mapp\Helpers\NameHelper;
+use Victorlap\Mapp\Helpers\TypeHelper;
 use Victorlap\Mapp\Inspection\Inspector;
 use Victorlap\Mapp\Inspection\Result\PropertyInspectionResult;
 
 class Mapper
 {
+    private MapperOptions $options;
     private Inspector $inspector;
 
-    public function __construct(Inspector $inspector = null)
+    public function __construct(MapperOptions $options = null, Inspector $inspector = null)
     {
-        $this->inspector = $inspector ?? new Inspector();
+        $this->options = $options ?? new MapperOptions();
+        $this->inspector = $inspector ?? new Inspector($this->options);
     }
 
     /**
@@ -56,12 +60,22 @@ class Mapper
         $result = new $class;
 
         foreach ($inspectionResult->properties as $property) {
-            if (! array_key_exists($property->jsonName, $json)) {
-                throw MissingPropertyException::create($class, $property->jsonName);
+            $jsonName = $property->jsonName;
+
+            if (! array_key_exists($jsonName, $json)) {
+                $jsonName = NameHelper::hyphenate($jsonName);
+            }
+
+            if (! array_key_exists($jsonName, $json)) {
+                if ($this->options->allow_missing_properties) {
+                    continue;
+                }
+
+                throw MissingPropertyException::create($class, $jsonName);
             }
 
             $result->{$property->propertyName} = $this->mapProperty(
-                $json[$property->jsonName],
+                $json[$jsonName],
                 $property
             );
         }
@@ -74,14 +88,26 @@ class Mapper
      */
     public function mapProperty(mixed $value, PropertyInspectionResult $property): mixed
     {
+        if (is_null($property->type)) {
+            return $value;
+        }
+
         $type = TypeHelper::determineSuitableType($value, $property->type->types);
 
         if (is_array($value)) {
             return $this->mapArray($value, $type);
         }
 
+        if (is_null($value) && $property->type->allowsNull) {
+            return null;
+        }
+
         if (class_exists($type)) {
             return $this->mapObject($value, $type);
+        }
+
+        if ($type === 'mixed') {
+            return $value;
         }
 
         settype($value, $type);
