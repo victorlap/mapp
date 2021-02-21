@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Victorlap\Mapp\Mapper;
 use Victorlap\Mapp\Tests\Stubs\Address;
 use Victorlap\Mapp\Tests\Stubs\Company;
+use Victorlap\Mapp\Tests\Stubs\Employee;
 
 class MapperTest extends TestCase
 {
@@ -70,6 +71,21 @@ class MapperTest extends TestCase
         self::assertEquals("1234", $company->address->zipcode);
         self::assertEquals("Amsterdam", $company->address->city);
         self::assertEquals("Netherlands", $company->address->country);
+
+        self::assertIsArray($company->employees);
+        self::assertCount(3, $company->employees);
+        self::assertInstanceOf(Employee::class, $company->employees[0]);
+        self::assertEquals(1, $company->employees[0]->id);
+        self::assertEquals("Alice", $company->employees[0]->name);
+        self::assertEquals("alice@acme.corp", $company->employees[0]->email);
+        self::assertInstanceOf(Employee::class, $company->employees[1]);
+        self::assertEquals(2, $company->employees[1]->id);
+        self::assertEquals("Bob", $company->employees[1]->name);
+        self::assertEquals("bob@acme.corp", $company->employees[1]->email);
+        self::assertInstanceOf(Employee::class, $company->employees[2]);
+        self::assertEquals(3, $company->employees[2]->id);
+        self::assertEquals("Carol", $company->employees[2]->name);
+        self::assertEquals("carol@acme.corp", $company->employees[2]->email);
     }
 
     private function loadStub(string $name)

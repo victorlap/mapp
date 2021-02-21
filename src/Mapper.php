@@ -3,6 +3,8 @@
 namespace Victorlap\Mapp;
 
 use Victorlap\Mapp\Exceptions\MissingPropertyException;
+use Victorlap\Mapp\Inspection\Inspector;
+use Victorlap\Mapp\Inspection\Result\PropertyInspectionResult;
 
 class Mapper
 {
@@ -25,11 +27,11 @@ class Mapper
             $json = json_decode($json, true, JSON_THROW_ON_ERROR);
         }
 
-        if (array_is_list((array)$json)) {
-            return $this->mapArray($json, $class);
+        if (is_object($json) || ! array_is_list($json)) {
+            return $this->mapObject($json, $class);
         }
 
-        return $this->mapObject((array)$json, $class);
+        return $this->mapArray($json, $class);
     }
 
     /**
@@ -45,8 +47,10 @@ class Mapper
      * @psalm-param class-string $class
      * @throws MissingPropertyException
      */
-    private function mapObject(array $json, string $class): object
+    private function mapObject(array | object $json, string $class): object
     {
+        $json = (array)$json;
+
         $inspectionResult = $this->inspector->inspect($class);
 
         $result = new $class;
@@ -65,8 +69,23 @@ class Mapper
         return $result;
     }
 
-    public function mapProperty($value, PropertyInspectionResult $property)
+    /**
+     * @psalm-param string|int|float|object|array $value
+     */
+    public function mapProperty(mixed $value, PropertyInspectionResult $property): mixed
     {
+        $type = TypeHelper::determineSuitableType($value, $property->type->types);
+
+        if (is_array($value)) {
+            return $this->mapArray($value, $type);
+        }
+
+        if (class_exists($type)) {
+            return $this->mapObject($value, $type);
+        }
+
+        settype($value, $type);
+
         return $value;
     }
 }

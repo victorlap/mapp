@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Victorlap\Mapp;
+namespace Victorlap\Mapp\Inspection\Result;
 
 class InspectionResult
 {

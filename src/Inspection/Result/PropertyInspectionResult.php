@@ -1,13 +1,12 @@
 <?php
 
 
-namespace Victorlap\Mapp;
+namespace Victorlap\Mapp\Inspection\Result;
 
 class PropertyInspectionResult
 {
     public function __construct(
-        public $value,
-        public $types,
+        public TypeInspectionResult $type,
         public string $propertyName,
         public string $jsonName,
     ) {

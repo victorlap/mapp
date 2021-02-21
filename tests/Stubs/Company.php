@@ -11,6 +11,9 @@ class Company
 
     public Address $address;
 
+    /**
+     * @var Employee[]
+     */
     #[ListAttribute(Employee::class)]
     public array $employees;
 }
