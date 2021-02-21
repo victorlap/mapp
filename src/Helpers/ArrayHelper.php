@@ -17,7 +17,7 @@ class ArrayHelper
 
         $nextKey = -1;
 
-        foreach ($array as $k => $v) {
+        foreach ($array as $k => $_) {
             if ($k !== ++$nextKey) {
                 return false;
             }
